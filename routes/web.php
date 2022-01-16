@@ -23,4 +23,6 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('employee', EmployeesController::class);
 });
 
+// Route::delete('employee/{id}', 'EmployeesController@delete')->name('employee.delete');
+
 

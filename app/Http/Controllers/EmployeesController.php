@@ -42,7 +42,7 @@ class EmployeesController extends Controller
 
        $this->validate($request,[
             'fullname' => 'required',
-            'registration_number' => 'required|numeric',
+            'registration_number' => 'required|numeric|unique:employees,registration_number',
             'depart' => 'required',
             'hire_date' => 'required',
             'phone' => 'required|numeric',
@@ -74,7 +74,11 @@ class EmployeesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $employee = Employee::where('registration_number',$id)->first();
+
+        return \view('employees.edit')->with([
+            'employee' => $employee
+        ]);
     }
 
     /**
@@ -86,7 +90,20 @@ class EmployeesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $employee = Employee::where('registration_number',$id)->first();
+               $this->validate($request,[
+            'fullname' => 'required',
+            'registration_number' => 'required|numeric|unique:employees,id,'.$employee->registration_number,
+            'depart' => 'required',
+            'hire_date' => 'required',
+            'phone' => 'required|numeric',
+            'address' => 'required',
+            'city' => 'required',
+        ]);
+        $employee->update($request->except('_token','_method'));
+        return \redirect()->route('employee.index')->with([
+            'success' => 'Employee Updated successfully'
+        ]);
     }
 
     /**
@@ -97,6 +114,12 @@ class EmployeesController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+         $employee = Employee::where('registration_number',$id)->first();
+        $employee->delete();
+         return \redirect()->route('employee.index')->with([
+            'success' => 'Employee Deleted successfully'
+        ]);
     }
+
 }
