@@ -63,7 +63,11 @@ class EmployeesController extends Controller
      */
     public function show($id)
     {
-        //
+        $employee = Employee::where('registration_number',$id)->first();
+
+        return \view('employees.show')->with([
+            'employee' => $employee
+        ]);
     }
 
     /**
@@ -119,6 +123,24 @@ class EmployeesController extends Controller
         $employee->delete();
          return \redirect()->route('employee.index')->with([
             'success' => 'Employee Deleted successfully'
+        ]);
+    }
+
+        public function vacation($id)
+    {
+
+         $employee = Employee::where('registration_number',$id)->first();
+          return \view('employees.vacation')->with([
+            'employee' => $employee
+        ]);
+    }
+
+          public function certification($id)
+    {
+
+         $employee = Employee::where('registration_number',$id)->first();
+         return \view('employees.certification')->with([
+            'employee' => $employee
         ]);
     }
 

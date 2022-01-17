@@ -21,8 +21,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     return view('home');
 });
     Route::resource('employee', EmployeesController::class);
+    Route::GET('employee/vacation/{id}', 'EmployeesController@vacation')->name('employee.vacation');
+    Route::GET('employee/certification/{id}', 'EmployeesController@certification')->name('employee.certification');
 });
 
-// Route::delete('employee/{id}', 'EmployeesController@delete')->name('employee.delete');
+
 
 
